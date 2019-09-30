@@ -1,0 +1,19 @@
+<section class="section-list-post" *ngIf="postlist.length > 0">
+  <mat-accordion *ngFor="let post of postlist">
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          {{post.postTitle}}
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <p>{{post.postContent}}</p>
+      <mat-action-row>
+        <button mat-button color="primary">Edit</button>
+        <button mat-button color="warn">Delete</button>
+      </mat-action-row>
+    </mat-expansion-panel>
+  </mat-accordion>
+</section>
+<section class="section-list-post align-center"  *ngIf="postlist.length <= 0">
+    <p class="mat-body-1" >No post added yet!</p>
+</section>

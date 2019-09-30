@@ -1,0 +1,38 @@
+<section class="section-create-post">
+  <mat-card>
+    <form (submit) = "onAddPost(postForm)" #postForm="ngForm">
+      <mat-form-field class="example-full-width">
+        <input
+          matInput
+          placeholder="Title"
+          type="text"
+          name="postTitle"
+          ngModel
+          required
+          minlength="3"
+          #title="ngModel">
+      </mat-form-field>
+      <mat-error *ngIf="title.invalid && (title.dirty || title.touched)">Please enter a post title</mat-error>
+
+      <mat-form-field class="example-full-width">
+        <textarea
+          matInput
+          placeholder="New Post"
+          name="postContent"
+          ngModel
+          required
+          #content="ngModel">
+        </textarea>
+      </mat-form-field>
+      <mat-error *ngIf="content.invalid && (content.dirty || content.touched)">Please enter a post</mat-error>
+
+
+      <button mat-raised-button color="primary" type="submit" color="primary">Save Post</button>
+
+    </form>
+
+  </mat-card>
+
+
+
+</section>
