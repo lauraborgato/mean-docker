@@ -5,3 +5,7 @@
 .section-create-post{
   padding: 2% 11%;
 }
+
+input[type="file"]{
+  visibility: hidden;
+}
