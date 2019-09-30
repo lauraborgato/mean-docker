@@ -5,3 +5,30 @@
 .align-center{
   text-align: center;
 }
+
+
+
+
+ .loading_skeleton {
+  height: 47px;
+  margin-top: 12px;
+  border-radius: 2px;
+  background-image: linear-gradient(90deg, #F4F4F4 0px, rgba(229, 229, 229, 0.8) 40px, #F4F4F4 80px);
+  background-size: 600px;
+  -webkit-animation: shine-lines 2s infinite ease-out;
+  animation: shine-lines 2s infinite ease-out;
+}
+
+.loading_skeleton ~ .loading_skeleton {
+  background-color: #ddd;
+}
+
+@keyframes shine-lines {
+  0% {
+    background-position: -100px;
+  }
+  40%, 100% {
+    background-position: 140px;
+  }
+}
+

@@ -1,6 +1,11 @@
 <section class="section-list-post" *ngIf="postlist.length > 0">
+  <div class="center" *ngIf="isLoading">
+    <div class="loading_skeleton"></div>
+    <div class="loading_skeleton"></div>
+    <div class="loading_skeleton"></div>
+  </div>
   <mat-accordion *ngFor="let post of postlist">
-    <mat-expansion-panel>
+    <mat-expansion-panel *ngIf="!isLoading">
       <mat-expansion-panel-header>
         <mat-panel-title>
           {{post.postTitle}}
@@ -8,12 +13,12 @@
       </mat-expansion-panel-header>
       <p>{{post.postContent}}</p>
       <mat-action-row>
-        <button mat-button color="primary" >Edit</button>
+        <a mat-button color="primary" [routerLink]="['/edit', post.id]">Edit</a>
         <button mat-button color="warn" (click)="onDelete(post.id)">Delete</button>
       </mat-action-row>
     </mat-expansion-panel>
   </mat-accordion>
 </section>
-<section class="section-list-post align-center"  *ngIf="postlist.length <= 0">
-    <p class="mat-body-1" >No post added yet!</p>
+<section class="section-list-post align-center" *ngIf="postlist.length <= 0 && !isLoading">
+  <p class="mat-body-1">No post added yet!</p>
 </section>

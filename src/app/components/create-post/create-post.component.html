@@ -1,13 +1,13 @@
 <section class="section-create-post">
   <mat-card>
-    <form (submit) = "onAddPost(postForm)" #postForm="ngForm">
+    <form (submit) = "onSavePost(postForm)" #postForm="ngForm">
       <mat-form-field class="example-full-width">
         <input
           matInput
           placeholder="Title"
           type="text"
           name="postTitle"
-          ngModel
+          [ngModel] = "post?.postTitle"
           required
           minlength="3"
           #title="ngModel">
@@ -19,7 +19,7 @@
           matInput
           placeholder="New Post"
           name="postContent"
-          ngModel
+          [ngModel]= "post?.postContent"
           required
           #content="ngModel">
         </textarea>

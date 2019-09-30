@@ -1,12 +1,9 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const config = require('../utils/config');
-const Post = require('./models/post');
 const mongoose = require('mongoose');
+const router = require('./routes/posts');
 const app = express();
-
-console.log(config);
-
 
 mongoose.connect(config.DB.DB_URL)
   .then(() => {
@@ -26,38 +23,6 @@ app.use((req, res, next) => {
   next();
 });
 
-app.post('/api/posts', (req, res, next) => {
-  const post = new Post({
-    postTitle: req.body.postTitle,
-    postContent: req.body.postContent
-  });
-
-  post.save().then(createdPost => {
-    res.status(201).json({
-      message: 'Post save succesfully',
-      id: createdPost._id
-    });
-  });
-
-})
-
-app.get('/api/posts', (req, res, next) => {
-  Post.find()
-    .then((documents) => {
-      res.status(200).json({
-        message: 'Post fetched succesfully',
-        posts: documents
-      });
-    });
-});
-
-app.delete("/api/posts/:id", (req, res, next) => {
-  console.log(req.params.id);
-  Post.deleteOne({ _id: req.params.id })
-    .then(result => {
-      console.log(result);
-      res.status(200).json({ message: 'Post deleted' });
-    });
-});
+app.use('/api/posts', router);
 
 module.exports = app;
