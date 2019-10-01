@@ -11,6 +11,8 @@ import { formArrayNameProvider } from '@angular/forms/src/directives/reactive_di
 export class AuthService {
 
   private token: string;
+  private authStatusListener = new Subject<boolean>();
+  private isAuthenticated = false;
 
   constructor(private httpClient: HttpClient, private router: Router) { }
 
@@ -33,11 +35,19 @@ export class AuthService {
     this.httpClient.post<{ token: string }>('http://localhost:3000/api/user/login', authData)
       .subscribe(response => {
         this.token = response.token;
+        if (this.token) {
+          this.authStatusListener.next(true);
+          this.isAuthenticated = true;
+        }
         console.log(response);
       });
   }
 
-  getToken(){
+  getToken() {
     return this.token;
+  }
+
+  getAuthStatusListener() {
+    return this.authStatusListener;
   }
 }
