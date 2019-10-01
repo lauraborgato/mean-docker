@@ -5,6 +5,7 @@ import { Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { Post } from '../model/post.model';
+import { AuthService } from './auth.service';
 
 
 @Injectable({ providedIn: 'root' })
