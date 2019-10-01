@@ -58,9 +58,9 @@ export class CreatePostComponent implements OnInit {
 
   initializeForm() {
     this.form = new FormGroup({
-      'postTitle': new FormControl(null, { validators: [Validators.required, Validators.minLength(3)] }),
-      'postContent': new FormControl(null, { validators: [Validators.required] }),
-      'postImage': new FormControl(null, { validators: [Validators.required], asyncValidators: [mimeType] })
+      postTitle: new FormControl(null, { validators: [Validators.required, Validators.minLength(3)] }),
+      postContent: new FormControl(null, { validators: [Validators.required] }),
+      postImage: new FormControl(null, { validators: [Validators.required], asyncValidators: [mimeType] })
     });
   }
 

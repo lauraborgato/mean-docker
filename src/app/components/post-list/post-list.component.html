@@ -1,8 +1,8 @@
 <section class="section-list-post" *ngIf="postlist.length > 0">
   <div class="center" *ngIf="isLoading">
-    <div class="loading_skeleton"></div>
-    <div class="loading_skeleton"></div>
-    <div class="loading_skeleton"></div>
+    <span *ngFor="let i of postAmountArray">
+      <div class="loading_skeleton"></div>
+    </span>
   </div>
   <mat-accordion *ngFor="let post of postlist">
     <mat-expansion-panel *ngIf="!isLoading">
@@ -21,6 +21,7 @@
       </mat-action-row>
     </mat-expansion-panel>
   </mat-accordion>
+  <mat-paginator *ngIf="postlist.length > 0" [length]="totalPost" [pageSize]="postPerPage" [pageSizeOptions]="pageSizeOptions" (page)="onChangePage($event)"></mat-paginator>
 </section>
 <section class="section-list-post align-center" *ngIf="postlist.length <= 0 && !isLoading">
   <p class="mat-body-1">No post added yet!</p>
