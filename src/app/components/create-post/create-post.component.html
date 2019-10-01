@@ -1,33 +1,31 @@
 <section class="section-create-post">
   <mat-card>
-    <form (submit) = "onSavePost(postForm)" #postForm="ngForm">
+    <form [formGroup]="form" (submit) = "onSavePost()">
       <mat-form-field class="example-full-width">
         <input
           matInput
           placeholder="Title"
           type="text"
-          name="postTitle"
-          [ngModel] = "post?.postTitle"
-          required
-          minlength="3"
-          #title="ngModel">
+          formControlName="postTitle"
+          name="postTitle">
       </mat-form-field>
-      <mat-error *ngIf="title.invalid && (title.dirty || title.touched)">Please enter a post title</mat-error>
+      <mat-error *ngIf="form.get('postTitle').invalid && (form.get('postTitle').dirty || form.get('postTitle').touched)">Please enter a post title</mat-error>
       <div>
         <button mat-stroked-button type="button" (click)="fileInput.click()">Pick Image</button>
-        <input type="file" #fileInput>
+        <input type="file" #fileInput (change)="onImagePick($event)">
+      </div>
+      <div class="image-preview" *ngIf="imagePreview !== '' && imagePreview && form.get('postImage').valid">
+        <img [src]="imagePreview" [alt]="form.value.postTitle">
       </div>
       <mat-form-field class="example-full-width">
         <textarea
           matInput
           placeholder="New Post"
-          name="postContent"
-          [ngModel]= "post?.postContent"
-          required
-          #content="ngModel">
+          formControlName="postContent"
+          name="postContent">
         </textarea>
       </mat-form-field>
-      <mat-error *ngIf="content.invalid && (content.dirty || content.touched)">Please enter a post</mat-error>
+      <mat-error *ngIf="form.get('postContent').invalid && (form.get('postContent').dirty || form.get('postContent').touched)">Please enter a post</mat-error>
 
 
       <button mat-raised-button color="primary" type="submit" color="primary">Save Post</button>

@@ -9,3 +9,13 @@
 input[type="file"]{
   visibility: hidden;
 }
+
+.image-preview{
+  height: 5rem;
+  margin: 1rem 0;
+  width: 90%;
+}
+
+.image-preview img{
+  height: 100%;
+}
