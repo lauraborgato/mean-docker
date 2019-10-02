@@ -18,6 +18,7 @@ export class SingupComponent implements OnInit {
     if (form.invalid) {
       return;
     }
+    this.isLoading = true;
     this.service.createUser(form.value.email, form.value.password);
   }
 

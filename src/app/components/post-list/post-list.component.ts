@@ -43,7 +43,7 @@ export class PostListComponent implements OnInit, OnDestroy {
       .subscribe(isAuthenticate => {
         this.userAuth = isAuthenticate;
       });
-
+    this.userAuth = this.authService.getIsAuth();
   }
 
   ngOnDestroy() {

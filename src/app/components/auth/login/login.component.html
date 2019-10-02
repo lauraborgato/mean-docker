@@ -26,7 +26,7 @@
             minlength="6">
         </mat-form-field>
         <mat-error *ngIf="password.invalid && (password.dirty || password.touched)">Please enter a valid Password</mat-error>
-        <button mat-raised-button color="primary" type="submit" color="primary">Login</button>
+        <button mat-raised-button color="primary" type="submit" color="primary" *ngIf="!isLoading">Login</button>
       </form>
     </mat-card>
   </section>
