@@ -1,5 +1,5 @@
 <section class="section-create-post">
-  <mat-card>
+  <mat-card *ngIf="!isLoading">
     <form [formGroup]="form" (submit) = "onSavePost()">
       <mat-form-field class="example-full-width">
         <input
@@ -33,7 +33,7 @@
     </form>
 
   </mat-card>
-
+  <mat-spinner *ngIf="isLoading"></mat-spinner>
 
 
 </section>

@@ -25,6 +25,8 @@ export class AuthService {
       .subscribe(response => {
         console.log(response);
         this.router.navigate(['/']);
+      }, error => {
+        this.authStatusListener.next(false);
       });
   }
 
@@ -47,6 +49,8 @@ export class AuthService {
           this.router.navigate(['/']);
         }
         console.log(response);
+      }, error => {
+        this.authStatusListener.next(false);
       });
   }
 

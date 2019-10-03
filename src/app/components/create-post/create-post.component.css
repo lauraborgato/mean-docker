@@ -19,3 +19,7 @@ input[type="file"]{
 .image-preview img{
   height: 100%;
 }
+
+mat-spinner{
+  margin: auto;
+}

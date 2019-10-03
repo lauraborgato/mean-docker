@@ -1,24 +1,33 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, Validators, FormControl } from '@angular/forms';
 import { ActivatedRoute, ParamMap } from '@angular/router';
+import { Subscription } from 'rxjs';
+
 import { PostService } from '../../service/post.service';
 import { Post } from '../../model/post.model';
 import { mimeType } from './mime-type.validator';
+import { AuthService } from '../../service/auth.service';
 
 @Component({
   selector: 'app-create-post',
   templateUrl: './create-post.component.html',
   styleUrls: ['./create-post.component.css']
 })
-export class CreatePostComponent implements OnInit {
+export class CreatePostComponent implements OnInit, OnDestroy {
   private mode = 'create';
   private postId: string;
   post: Post;
   form: FormGroup;
   imagePreview;
-  constructor(private postService: PostService, public route: ActivatedRoute) { }
+  isLoading = false;
+  private authStatusSub: Subscription;
+
+  constructor(private postService: PostService, public route: ActivatedRoute, private authService: AuthService) { }
 
   ngOnInit() {
+    this.authStatusSub = this.authService.getAuthStatusListener().subscribe(isAuthenticate => {
+      this.isLoading = false;
+    });
     this.initializeForm();
     this.route.paramMap.subscribe((paramMap: ParamMap) => {
       if (paramMap.has('postId')) {
@@ -32,7 +41,7 @@ export class CreatePostComponent implements OnInit {
               postTitle: post.postTitle,
               imagePath: post.imagePath,
               userId: post.userId
-          };
+            };
             this.form.setValue({
               postTitle: this.post.postTitle,
               postContent: this.post.postContent,
@@ -51,6 +60,7 @@ export class CreatePostComponent implements OnInit {
     if (this.form.invalid) {
       return;
     }
+    this.isLoading = true;
     if (this.mode === 'create') {
       this.postService.addPost(null, this.form.value.postTitle, this.form.value.postContent, this.form.value.postImage);
     } else {
@@ -79,5 +89,9 @@ export class CreatePostComponent implements OnInit {
       this.imagePreview = reader.result;
     }
     reader.readAsDataURL(file);
+  }
+
+  ngOnDestroy() {
+    this.authStatusSub.unsubscribe();
   }
 }
