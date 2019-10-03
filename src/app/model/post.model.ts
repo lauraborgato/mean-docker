@@ -3,4 +3,5 @@ export interface Post {
   postTitle: string;
   postContent: string;
   imagePath: string;
+  userId: string;
 }

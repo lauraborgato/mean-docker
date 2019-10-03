@@ -47,21 +47,26 @@ router.put('/:id', checkAuth, multer({ storage: storage }).single('postImage'), 
     _id: req.body.id,
     postTitle: req.body.postTitle,
     postContent: req.body.postContent,
-    imagePath: imagePath
+    imagePath: imagePath,
+    userId: req.userData.userId
   });
-  Post.updateOne({ _id: req.params.id }, post).then(result => {
-    res.status(200).json({ message: 'Update sucessful!', post: result });
+  Post.updateOne({ _id: req.params.id, userId: req.userData.userId }, post).then(result => {
+    if (result.n > 0) {
+      res.status(200).json({ message: 'Update sucessful!', post: result });
+    } else {
+      res.status(401).json({ message: "Unauthorize user" });
+    }
   })
 });
 
-router.post('', checkAuth,  multer({ storage: storage }).single('postImage'), (req, res, next) => {
+router.post('', checkAuth, multer({ storage: storage }).single('postImage'), (req, res, next) => {
   const url = `${req.protocol}://${req.get('host')}`;
   const post = new Post({
     postTitle: req.body.postTitle,
     postContent: req.body.postContent,
-    imagePath: `${url}/images/${req.file.filename}`
+    imagePath: `${url}/images/${req.file.filename}`,
+    userId: req.userData.userId
   });
-
   post.save().then(createdPost => {
     res.status(201).json({
       message: 'Post save succesfully',
@@ -100,9 +105,13 @@ router.get('', (req, res, next) => {
 });
 
 router.delete("/:id", checkAuth, (req, res, next) => {
-  Post.deleteOne({ _id: req.params.id })
+  Post.deleteOne({ _id: req.params.id, userId: req.userData.userId })
     .then(result => {
-      res.status(200).json({ message: 'Post deleted' });
+      if (result.n > 0) {
+        res.status(200).json({ message: 'Post deleted' });
+      } else {
+        res.status(401).json({ message: "Unauthorize user" });
+      }
     });
 });
 

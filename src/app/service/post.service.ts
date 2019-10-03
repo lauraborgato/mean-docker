@@ -25,7 +25,8 @@ export class PostService {
               postTitle: post.postTitle,
               postContent: post.postContent,
               id: post._id,
-              imagePath: post.imagePath
+              imagePath: post.imagePath,
+              userId: post.userId
             };
           }),
           amountPost: postData.amountPost
@@ -59,7 +60,7 @@ export class PostService {
   }
 
   getPost(id: string) {
-    return this.httpClient.get<{ _id: string, postTitle: string, postContent: string, imagePath: string }>
+    return this.httpClient.get<{ _id: string, postTitle: string, postContent: string, imagePath: string, userId: string }>
       (`http://localhost:3000/api/posts/${id}`);
   }
 
@@ -76,7 +77,8 @@ export class PostService {
         id,
         postTitle,
         postContent,
-        imagePath: postImage
+        imagePath: postImage,
+        userId: null
       };
     }
     this.httpClient.put<{ message: string, post: Post }>(`http://localhost:3000/api/posts/${id}`, postData)

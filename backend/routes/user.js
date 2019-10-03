@@ -49,7 +49,8 @@ router.post('/login', (req, res, next) => {
       const token = jwt.sign({ email: fetchuser.email, userId: fetchuser._id }, 'secret_this_should_be_longer', { expiresIn: "1h" }); //secret_this_should_be_longer string for authentications only lives in the server
       res.status(200).json({
         token: token,
-        expiresIn: 3600
+        expiresIn: 3600,
+        userId: fetchuser._id
       });
       console.log(token);
 
