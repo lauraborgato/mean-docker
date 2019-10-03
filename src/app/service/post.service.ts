@@ -5,7 +5,7 @@ import { Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { Post } from '../model/post.model';
-import { AuthService } from './auth.service';
+import { environment } from '../../environments/environment';
 
 
 @Injectable({ providedIn: 'root' })
@@ -17,7 +17,7 @@ export class PostService {
 
   getPosts(postPerPage: number, currentPage: number) {
     const queryParams = `?pagesize=${postPerPage}&page=${currentPage}`;
-    this.httpClient.get<{ messages: string, posts: any, amountPost: number }>(`http://localhost:3000/api/posts${queryParams}`)
+    this.httpClient.get<{ messages: string, posts: any, amountPost: number }>(`${environment.apiUrl}posts${queryParams}`)
       .pipe(map(postData => {
         return {
           posts: postData.posts.map(post => {
@@ -33,8 +33,6 @@ export class PostService {
         };
       }))
       .subscribe((mapPost) => {
-        console.log(mapPost);
-
         this.posts = mapPost.posts;
         this.postsUpdated.next({ posts: this.posts.slice(), amountPost: mapPost.amountPost });
       });
@@ -45,14 +43,14 @@ export class PostService {
     postData.append('postTitle', postTitle);
     postData.append('postContent', postContent);
     postData.append('postImage', postImage, postTitle);
-    this.httpClient.post<{ message: string, post: Post }>('http://localhost:3000/api/posts', postData)
+    this.httpClient.post<{ message: string, post: Post }>(`${environment.apiUrl}posts`, postData)
       .subscribe(() => {
         this.router.navigate(['/']);
       });
   }
 
   deletePost(id: string) {
-    return this.httpClient.delete<{ message: string }>(`http://localhost:3000/api/posts/${id}`);
+    return this.httpClient.delete<{ message: string }>(`${environment.apiUrl}posts/${id}`);
   }
 
   getPostUpdatedListener() {
@@ -61,7 +59,7 @@ export class PostService {
 
   getPost(id: string) {
     return this.httpClient.get<{ _id: string, postTitle: string, postContent: string, imagePath: string, userId: string }>
-      (`http://localhost:3000/api/posts/${id}`);
+      (`${environment.apiUrl}posts/${id}`);
   }
 
   updatePost(id: string, postTitle: string, postContent: string, postImage: File | string) {
@@ -81,7 +79,7 @@ export class PostService {
         userId: null
       };
     }
-    this.httpClient.put<{ message: string, post: Post }>(`http://localhost:3000/api/posts/${id}`, postData)
+    this.httpClient.put<{ message: string, post: Post }>(`${environment.apiUrl}posts/${id}`, postData)
       .subscribe(() => {
         this.router.navigate(['/']);
       });

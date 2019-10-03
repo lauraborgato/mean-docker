@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { Subject } from 'rxjs';
 import { AuthData } from '../model/auth.model';
+import { environment } from 'src/environments/environment';
 
 
 @Injectable({ providedIn: 'root' })
@@ -21,9 +22,8 @@ export class AuthService {
       email,
       password
     };
-    this.httpClient.post('http://localhost:3000/api/user/singup', authData)
+    this.httpClient.post(`${environment.apiUrl}user/singup`, authData)
       .subscribe(response => {
-        console.log(response);
         this.router.navigate(['/']);
       }, error => {
         this.authStatusListener.next(false);
@@ -35,7 +35,7 @@ export class AuthService {
       email,
       password
     };
-    this.httpClient.post<{ token: string, expiresIn: number, userId: string }>('http://localhost:3000/api/user/login', authData)
+    this.httpClient.post<{ token: string, expiresIn: number, userId: string }>(`${environment.apiUrl}user/login`, authData)
       .subscribe(response => {
         this.token = response.token;
         if (this.token) {
@@ -48,7 +48,6 @@ export class AuthService {
           this.saveAuthData(this.token, expirationDate, response.userId);
           this.router.navigate(['/']);
         }
-        console.log(response);
       }, error => {
         this.authStatusListener.next(false);
       });

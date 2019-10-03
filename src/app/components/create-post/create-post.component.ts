@@ -64,7 +64,6 @@ export class CreatePostComponent implements OnInit, OnDestroy {
     if (this.mode === 'create') {
       this.postService.addPost(null, this.form.value.postTitle, this.form.value.postContent, this.form.value.postImage);
     } else {
-      console.log('edition');
       this.postService.updatePost(this.postId, this.form.value.postTitle, this.form.value.postContent, this.form.value.postImage);
     }
 
